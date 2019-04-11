@@ -95,13 +95,13 @@ export default{
       demoWorksName: 'Works Name',
       demoOnlineAddress: 'Online Address',
       demoWorksDesc: 'Works Description',
-      demoDateOfline: 'Date Of Line'
+      demoDateOfline: 'Date Offine'
     },
-    zh: {
-      demoWorksName: '作品名称',
-      demoOnlineAddress: '在线地址',
-      demoWorksDesc: '作品描述',
-      demoDateOfline: '上线日期'
+    ro: {
+      demoWorksName: 'Nume',
+      demoOnlineAddress: 'URL',
+      demoWorksDesc: 'Description',
+      demoDateOfline: 'Ultima logare'
     }
   }
 }

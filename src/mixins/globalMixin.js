@@ -9,7 +9,7 @@ Vue.mixin({
 
   computed: {
     $currentLang () {
-      return Vue.config.lang || 'zh'
+      return Vue.config.lang || 'ro'
     },
 
     ...mapState([

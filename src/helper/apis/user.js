@@ -5,7 +5,10 @@ let serverUrl = $utils.serverUrl
 
 export default {
   login (data) {
-    return $ajax.post(serverUrl('login'), data)
+    // return $ajax.post(serverUrl('login'), data)
+    return new Promise(function(resolve, reject) {
+      resolve(true)
+    })
   },
   logout () {
     return $ajax.get(serverUrl('logout'))

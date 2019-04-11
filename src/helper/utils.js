@@ -9,12 +9,12 @@ if (typeof String.prototype.startsWith !== 'function') {
 export default {
   resMsg (res) {
     let key = {
-      zh: 'Chinese',
+      ro: 'Romanian',
       en: 'English'
     }[Vue.config.lang]
     try {
       let obj = JSON.parse(res.Message)
-      return obj[key] || obj.Chinese
+      return obj[key] || obj.Romanian
     } catch (e) {
       return res && res.Message
     }
@@ -24,9 +24,9 @@ export default {
     return `app/${apiName}`
   },
 
-  titleLang (zhStr, enStr) {
+  titleLang (roStr, enStr) {
     return {
-      zh: zhStr,
+      ro: roStr,
       en: enStr
     }
   },

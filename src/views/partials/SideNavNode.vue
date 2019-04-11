@@ -2,14 +2,14 @@
   <el-submenu v-if="isContainMore(model)" :index="model.fullpath">
     <template slot="title">
       <i v-if="model.icon" :class="`el-icon-${model.icon}`"></i>
-      {{ model.meta.title[$currentLang] }}
+      {{ model.meta.title }}
     </template>
     <template v-for="(item, index) in model.children">
       <el-menu-item v-if="!isContainMore(item)"
         :class="item.fullpath === $route.path ? 'is-active': ''"
         :index="item.path"
         @click="onMenuItemClick(item.path)">
-        {{ item.meta.title[$currentLang] }}
+        {{ item.meta.title }}
       </el-menu-item>
       <side-nav-node :model="item"></side-nav-node>
     </template>

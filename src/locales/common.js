@@ -1,22 +1,22 @@
 export default {
-  zh: {
-    projectTitle: 'Vue 样板模板',
-    cancel: '取 消',
-    confirm: '确 定',
+  ro: {
+    projectTitle: 'Magazin E-Auto',
+    cancel: 'Inchide',
+    confirm: 'Confirma',
 
-    signIn: '登录',
-    signUp: '注册',
-    signOut: '退出登录',
-    username: '用户名',
-    password: '密码',
+    signIn: 'Autentificare',
+    signUp: 'Inregistrare',
+    signOut: 'Delogare',
+    username: 'Nume de utilizator',
+    password: 'Parola',
 
-    warmReminder: '温馨提示',
-    switchLang: '切换语言',
+    warmReminder: 'Nu uita: ',
+    switchLang: 'Schimba limba',
 
-    operation: '操作',
-    edit: '编辑',
-    pleaseEnter: '请输入',
-    pleaseSelect: '请选择'
+    operation: 'operatie',
+    edit: 'Editeaza',
+    pleaseEnter: 'Introdu',
+    pleaseSelect: 'Selecteaza'
   },
 
   en: {

@@ -3,6 +3,7 @@
     <div class="login-box">
       <img src="../assets/images/logo.png" alt="">
       <h1 class="heading">{{ $t('projectTitle') }}</h1>
+      <p>Any username, any password (for now)</p>
       <el-form :model="account" :rules="rules" ref="validateForm">
         <el-form-item prop="username">
           <el-input v-model="account.username" :placeholder="$t('username')"></el-input>
@@ -22,6 +23,8 @@
 </template>
 
 <script>
+  import Cookies from 'js-cookie'
+
   export default{
     data () {
       return {
@@ -67,12 +70,13 @@
             this.$apis.user.login(postData).then((result) => {
               // Here U can Call the method to get updated to your user information
               // this.$store.commit('$vuexSetUserInfo')
+              this.isLoading = false
+              Cookies.set('isLogin', true)
               this.$router.push('/')
             }).catch((err) => {
+              this.isLoading = false
               this.$router.push('/demo/form')
               this.$message.error(err.msg)
-            }).fin(() => {
-              this.isLoading = false
             })
           } else {
             this.$router.push('/demo/form')

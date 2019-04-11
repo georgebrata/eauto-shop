@@ -71,7 +71,7 @@ export default {
     },
 
     onSwitchClick () {
-      let targetLang = this.$currentLang === 'zh' ? 'en' : 'zh'
+      let targetLang = this.$currentLang === 'ro' ? 'en' : 'ro'
       Cookies.set('lang', targetLang)
       Vue.config.lang = targetLang
     }

@@ -1,7 +1,7 @@
 <template>
   <section class="page-module">
     <div class="module-header">
-      <h3>列表示例</h3>
+      <h3>All cars</h3>
     </div>
     <div class="module-content">
       <div class="panel panel-default">
@@ -154,9 +154,9 @@ export default {
       demoWorksName: 'Works Name',
       demoOnlineAddress: 'Online Address',
       demoWorksDesc: 'Works Description',
-      demoDateOfline: 'Date Of Line'
+      demoDateOfline: 'Date Offine'
     },
-    zh: {
+    ro: {
       demoWorksName: '作品名称',
       demoOnlineAddress: '在线地址',
       demoWorksDesc: '作品描述',
