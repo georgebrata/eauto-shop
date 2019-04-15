@@ -1,42 +1,21 @@
 <template>
-  <el-dialog title="编辑列表" :visible.sync="isVisible" @close="onClose" class="edit-dialog">
-    <el-form :model="fillForm" :rules="rules" ref="fillForm">
-      <div class="form-group col-sm-12">
-        <el-form-item :label="$t('demoWorksName')" prop="name">
-          <el-input v-model="fillForm.name"></el-input>
-        </el-form-item>
-      </div>
-
-      <div class="form-group col-sm-12">
-        <el-form-item :label="$t('demoOnlineAddress')" prop="address">
-          <el-input v-model="fillForm.address"></el-input>
-        </el-form-item>
-      </div>
-
-      <div class="form-group col-sm-12">
-        <el-form-item :label="$t('demoWorksDesc')" prop="description">
-          <el-input v-model="fillForm.description"></el-input>
-        </el-form-item>
-      </div>
-
-      <div class="form-group col-sm-12">
-        <el-form-item :label="$t('demoDateOfline')" prop="date">
-          <el-input v-model="fillForm.date"></el-input>
-        </el-form-item>
-      </div>
-    </el-form>
-
+  <el-dialog :title="`${car.make} ${car.model}`" :visible="visible || isVisible" @close="onClose" class="edit-dialog">
+    {{car.carID}}
+    
     <span slot="footer" class="dialog-footer">
       <el-button @click="isVisible = false"> {{$t('cancel')}}</el-button>
-      <el-button type="primary" @click="onSureClick"> {{$t('confirm')}}</el-button>
     </span>
   </el-dialog>
 </template>
 
 <script>
+import { Bar } from 'vue-chartjs'
+import translations from "../../translations.js";
+
+
 export default{
   name: 'EditDialog',
-
+  extends: Bar,
   data () {
     return {
       isVisible: false,
@@ -54,14 +33,16 @@ export default{
 
   created () {},
 
-  mounted () {},
+  mounted () {
+    //this.renderChart(data, options)
+  },
 
   props: {
-    value: {
+    visible: {
       type: Boolean,
       required: true
     },
-    pdata: {
+    car: {
       type: Object,
       default: {}
     }
@@ -82,27 +63,12 @@ export default{
 
     /* ----------------------------On Click Event---------------------------- */
     onSureClick () {
-      this.$refs.fillForm.validate(valid => {
-        if (!valid) return
-        this.$emit('dispatch-data', JSON.parse(JSON.stringify(this.fillForm)))
-        this.isVisible = false
-      })
     }
   },
 
   locales: {
-    en: {
-      demoWorksName: 'Works Name',
-      demoOnlineAddress: 'Online Address',
-      demoWorksDesc: 'Works Description',
-      demoDateOfline: 'Date Offine'
-    },
-    ro: {
-      demoWorksName: 'Nume',
-      demoOnlineAddress: 'URL',
-      demoWorksDesc: 'Description',
-      demoDateOfline: 'Ultima logare'
-    }
+    en: translations.en,
+    ro: translations.ro
   }
 }
 </script>

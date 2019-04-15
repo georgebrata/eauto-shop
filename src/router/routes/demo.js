@@ -46,7 +46,7 @@ export default [
         title: "Suggest a car",
         ignoreAuth: false
       },
-      component: resolve => require(['@views/car/Form'], resolve)
+      component: resolve => require(['@views/car/SuggestACar'], resolve)
     },
   ]
 }]

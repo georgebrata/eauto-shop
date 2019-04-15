@@ -13,6 +13,10 @@ export default [
     redirect: '/car/list'
   },
   {
+    path: '',
+    redirect: '/car/list'
+  },
+  {
     path: '*',
     meta: {
       title: 'Not Found',

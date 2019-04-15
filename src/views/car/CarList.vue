@@ -25,12 +25,16 @@
               </template>
             </el-table-column>
 
-            <el-table-column :label="''" width="41" fixed="right">
+            <el-table-column :label="''" width="80" fixed="right">
               <template slot-scope="scope">
                 <div class="operation-area">
                   <a :href="scope.row.address" class="heart-link" target="_blank" rel="noreferrer noopener" title="Favorite this car"
                     @click="toggleFavouriteCar(scope.row.carID)">
                     <span :class="favouriteCars.includes(scope.row.carID) ? 'el-icon-star-on' : 'el-icon-star-off'"></span>
+                  </a>
+                  <a :href="scope.row.address" class="details-link" target="_blank" rel="noreferrer noopener" title="View more details about this car"
+                    @click="viewCarDetails(scope.row.carID)">
+                    <span class="el-icon-zoom-in"></span>
                   </a>
                 </div>
               </template>
@@ -39,22 +43,10 @@
         </div>
       </div>
 
-      <edit-dialog :pdata="currentRowData" v-model="isDialogVisible" @dispatch-data="onUpdateRowData">
+      <edit-dialog :car="currentCar" :visible="isDialogVisible">
       </edit-dialog>
 
     </div>
-
-    <el-dialog
-      title="Warning"
-      :visible.sync="centerDialogVisible"
-      width="30%"
-      center>
-      <span>It should be noted that the content will not be aligned in center by default</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="centerDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="centerDialogVisible = false">Confirm</el-button>
-      </span>
-    </el-dialog>  
   </section>
 </template>
 
@@ -80,8 +72,7 @@
         filteredCarList: [],
         isDialogVisible: false,
         currentPage: 1,
-        currentRowData: {},
-        currentRowIndex: -1
+        currentCar: {},
       };
     },
 
@@ -128,6 +119,22 @@
         this.$setFavoritesList(this.favouriteCars);
       },
 
+     viewCarDetails(carID) {
+        let index = -1;
+        this.carList.forEach((element, i) => {
+          if (element.carID == carID) {
+            index = i;
+          } 
+        });
+      
+        console.log(this.carList, carID);
+
+        if (index > -1) {
+          this.currentCar = this.filteredCarList[index];
+          this.isDialogVisible = true;
+        } 
+     },
+
       getData() {
         this.$apis.car.fetchAll().then(carList => {
             this.carList = carList;
@@ -137,16 +144,6 @@
             this.isLoading = false;
             this.hasError = true;
           });
-      },
-
-      handleCurrentChange(val) {
-        this.currentPage = val;
-        console.log(`当前页: ${val}`);
-      },
-
-      onUpdateRowData(data) {
-        this.currentRowData = data;
-        this.$set(this.tableData, this.currentRowIndex, data);
       },
 
       search(e) {
@@ -226,6 +223,14 @@
     }
     th {
       font-weight: bold;
+      height: 1.3rem;
+    }
+    .details-link {
+      margin-left: 10px;
+      cursor: pointer;
+      &:hover {
+        color: black;
+      }
     }
 
     .heart-link {

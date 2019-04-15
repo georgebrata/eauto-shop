@@ -12,8 +12,8 @@
           <el-button @click="onGoHomeClick" :plain="true" size="large" type="info">
           Go back home
           </el-button>
-          <el-button @click="onBackPageClick" :plain="true" size="large" ttype="info">Back
-          </el-button>
+          <!--<el-button @click="onBackPageClick" :plain="true" size="large" ttype="info">Back
+          </el-button>-->
         </div>
       </el-card>
     </div>
