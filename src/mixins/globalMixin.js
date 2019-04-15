@@ -20,7 +20,9 @@ Vue.mixin({
   methods: {
     ...mapActions([
       '$getUserInfo',
-      '$setMenuList'
+      '$setMenuList',
+      '$setCarList',
+      '$setFavoritesList'
     ]),
 
     $triggerSidenav () {

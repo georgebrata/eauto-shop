@@ -17,7 +17,7 @@ export default {
 
   data () {
     return {
-      defaultOpeneds: ['demo']
+      defaultOpeneds: ['']
     }
   },
 
@@ -27,6 +27,7 @@ export default {
 
   computed: {
     menuList () {
+      //console.log(this.$store.state.menuList);
       return this.$store.state.menuList
     }
   }

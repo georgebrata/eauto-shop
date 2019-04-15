@@ -3,19 +3,19 @@ export default [
   {
     path: '/login',
     meta: {
-      title: '登录',
+      title: 'Login',
       ignoreAuth: true
     },
     component: resolve => require(['@views/Login'], resolve)
   },
   {
     path: '/',
-    redirect: '/demo/list'
+    redirect: '/car/list'
   },
   {
     path: '*',
     meta: {
-      title: '页面未找到',
+      title: 'Not Found',
       ignoreAuth: true
     },
     component: NotFound

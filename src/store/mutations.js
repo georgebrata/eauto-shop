@@ -14,5 +14,14 @@ export default {
     **/
     // $utils.setStorage(STORAGE_KEY, menuList)
     state.menuList = menuList
+  },
+
+  $vuexSetCarList (state, carList) {
+    state.carList = carList;
+  },
+
+  $vuexSetFavoritesList (state, favoritesList) {
+    state.favoritesList = favoritesList;
   }
+
 }

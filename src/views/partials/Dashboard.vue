@@ -16,7 +16,7 @@ import HeaderComponent from '@views/partials/Header'
 import RoutesMapConfig from '@router/routes'
 
 export default{
-  name: 'Frame',
+  name: 'Dashboard',
 
   props: {
   },

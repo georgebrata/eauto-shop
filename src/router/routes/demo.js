@@ -1,32 +1,52 @@
 import Frame from '@views/partials/Frame'
+import Dashboard from '@views/partials/Dashboard'
 
-export default [{
-  path: '/demo',
+export default [
+  {
+  path: '/',
   component: Frame,
-  fullpath: 'demo',
+  fullpath: '',
   // isHideInMenu: true,
   meta: {
     title: "Masini"
   },
   children: [
     {
-      path: 'form',
-      fullpath: '/demo/form',
-      isHideInMenu: false,
+      path: '/car/list',
+      fullpath: '/car/list',
       meta: {
-        title: "Sugereaza o masina",
+        title: "All cars",
         ignoreAuth: false
       },
-      component: resolve => require(['@views/demo/Form'], resolve)
+      component: resolve => require(['@views/car/CarList'], resolve)
     },
     {
-      path: 'list',
-      fullpath: '/demo/list',
+      path: '/car/favourites',
+      fullpath: '/car/favourites',
       meta: {
-        title: "Toate masinile",
+        title: "My favourites",
         ignoreAuth: false
       },
-      component: resolve => require(['@views/demo/List'], resolve)
-    }
+      component: resolve => require(['@views/car/CarFavouritesList'], resolve)
+    },
+    {
+      path: '/car/compare',
+      fullpath: '/car/compare',
+      meta: {
+        title: "Compare cars",
+        ignoreAuth: false
+      },
+      component: resolve => require(['@views/car/CompareCars'], resolve)
+    },
+    {
+      path: '/car/suggest',
+      fullpath: '/car/suggest',
+      isHideInMenu: false,
+      meta: {
+        title: "Suggest a car",
+        ignoreAuth: false
+      },
+      component: resolve => require(['@views/car/Form'], resolve)
+    },
   ]
 }]

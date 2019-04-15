@@ -9,5 +9,13 @@ export default {
 
   $setMenuList ({commit, state}, menuList) {
     commit('$vuexSetMenuList', menuList)
+  },
+
+  $setCarList ({commit, state}, carList) {
+    commit('$vuexSetCarList', carList)
+  },
+
+  $setFavoritesList ({commit, state}, favoritesList) {
+    commit('$vuexSetFavoritesList', favoritesList)
   }
 }

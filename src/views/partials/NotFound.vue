@@ -10,9 +10,9 @@
         <p class="error-404-body-message">YOU&nbsp;&nbsp;LOOK&nbsp;&nbsp;LOST</p>
         <div class="error-404-btns">
           <el-button @click="onGoHomeClick" :plain="true" size="large" type="info">
-          返回首页
+          Go back home
           </el-button>
-          <el-button @click="onBackPageClick" :plain="true" size="large" ttype="info">返回上一页
+          <el-button @click="onBackPageClick" :plain="true" size="large" ttype="info">Back
           </el-button>
         </div>
       </el-card>

@@ -1,23 +1,35 @@
 <template>
   <section class="page-module">
     <div class="module-header">
-      <h3>表单示例</h3>
+      <h3>Suggest an electric car</h3>
     </div>
     <div class="module-content">
       <div class="panel panel-default">
         <div class="panel-body">
-          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
+          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="20vw">
+            <!--
             <div class="form-group col-sm-6">
-              <el-form-item label="当前时间" prop="name">
+              <el-form-item label="Time" prop="time">
                 <span>{{ new Date() | dateTimeConvert }}</span>
+              </el-form-item>
+            </div>
+            -->
+            <el-row :gutter="10">
+              <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"><div class="grid-content bg-purple"></div></el-col>
+            </el-row>
+
+            <div class="form-group col-xl-6 col-sm-12">
+              <el-form-item label="Make" prop="make">
+                <el-input v-model="ruleForm.make"></el-input>
               </el-form-item>
             </div>
 
             <div class="form-group col-sm-6">
-              <el-form-item label="活动名称" prop="name">
-                <el-input v-model="ruleForm.name"></el-input>
+              <el-form-item label="Model" prop="model">
+                <el-input v-model="ruleForm.make"></el-input>
               </el-form-item>
             </div>
+
 
             <div class="form-group col-sm-6">
               <el-form-item label="活动区域" prop="region">
@@ -39,7 +51,7 @@
             </div>
 
             <div class="form-group col-sm-6">
-              <el-form-item label="即时配送" prop="delivery">
+              <el-form-item label="Automatic transmission" prop="transmission">
                 <el-switch on-text="" off-text="" v-model="ruleForm.delivery"></el-switch>
               </el-form-item>
             </div>
@@ -91,7 +103,7 @@ export default {
   data () {
     return {
       ruleForm: {
-        name: '',
+        make: '',
         region: '',
         date1: '',
         date2: '',
@@ -101,9 +113,9 @@ export default {
         desc: ''
       },
       rules: {
-        name: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        make: [
+          { required: true, message: 'Make is required.', trigger: 'blur' },
+          { min: 2, max: 16, message: 'At least 2, but no more than 16 characters.', trigger: 'blur' }
         ],
         region: [
           { required: true, message: '请选择活动区域', trigger: 'change' }
@@ -143,9 +155,9 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$message.success('提交成功')
+          this.$message.success('We got your suggestion! ')
         } else {
-          this.$message.error('提交失败')
+          this.$message.error('There was an error while sending the form, Please try again later. ')
           return false
         }
       })

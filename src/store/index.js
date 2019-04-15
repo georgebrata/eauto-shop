@@ -10,6 +10,8 @@ Vue.use(Vuex)
 const state = {
   userId: '',
   userInfo: null,
+  favouriteCars: [],
+  carList: [],
   menuList: []
 }
 

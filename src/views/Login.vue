@@ -75,11 +75,13 @@
               this.$router.push('/')
             }).catch((err) => {
               this.isLoading = false
-              this.$router.push('/demo/form')
-              this.$message.error(err.msg)
+              this.hasErrors = true
+              //this.$router.push('/demo/form')
+              //this.$message.error(err.msg)
             })
           } else {
-            this.$router.push('/demo/form')
+            this.hasErrors = true
+            //this.$router.push('/demo/form')
             return false
           }
         })
