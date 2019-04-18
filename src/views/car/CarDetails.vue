@@ -1,12 +1,12 @@
 <template>
   <section class="page-module">
-    
+
     <div class="module-header">
       <h3>{{getCar()['make']}} {{getCar()['model']}} <el-tag type="info">{{getCar()['dateFrom(MontYear)']}}</el-tag> </h3>
         <el-button class="hidden-sm-and-down" type="primary" style="position: absolute; right: 20px; top: 15px;"><i class="el-icon-menu mr-3"></i>Compare this car with others</el-button>
         <el-button class="hidden-md-and-up" type="primary" style="position: absolute; right: 20px; top: 15px;"><i class="el-icon-menu"></i></el-button>
     </div>
-    
+
     <div class="module-content">
         <el-row>
             <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" v-if="general">
@@ -15,35 +15,35 @@
                         <h4 style="display: inline;">General</h4>
                         <el-button style="float: right; padding: 6px;" type="text" @click="hideGeneral()">Hide</el-button>
                     </div>
-  
+
                     <div class="text item mb-3">
-                        <p class="mb-1">Price (new)</p> 
+                        <p class="mb-1">Price (new)</p>
                         <h5 class="mb-1">{{getCar()['newPrice']}}</h5>
                         <small class="mb-2" style="color: lightgray; float: right">{{getCar()['usedPriceRange'] ? "Used  "+getCar()['usedPriceRange'] : ""}}</small>
                     </div>
 
                     <div class="text item mb-3 mt-1">
-                        <p class="mb-1">Transmission</p> 
+                        <p class="mb-1">Transmission</p>
                         <h5 class="mb-1" v-if="getCar()['transmision'] == 'Automatic'"><i class="el-icon-circle-check-outline mr-1"></i>{{getCar()['transmision']}}</h5>
                         <h5 class="mb-1" v-if="getCar()['transmision'] !== 'Automatic'">{{getCar()['transmision']}}</h5>
                     </div>
 
 
                     <div class="text item mb-3">
-                        <p class="mb-1">Fuel type</p> 
+                        <p class="mb-1">Fuel type</p>
                         <h5 class="mb-1">{{getCar()['fuelType']}}</h5>
                     </div>
 
                     <el-row :gutter="12">
                         <el-col :xs="24" :sm="24" :md="12">
                             <div class="text item mb-3">
-                                <p class="mb-1">Seats</p> 
+                                <p class="mb-1">Seats</p>
                                 <h5 class="mb-1">{{getCar()['seats']}}</h5>
                             </div>
                         </el-col>
                         <el-col :xs="24" :sm="24" :md="12">
                             <div class="text item mb-3" style="text-align: left;">
-                                <p class="mb-1">Doors</p> 
+                                <p class="mb-1">Doors</p>
                                 <h5 class="mb-1">{{getCar()['doors']}}</h5>
                             </div>
                         </el-col>
@@ -52,13 +52,13 @@
                     <hr>
 
                     <div class="text item mb-3">
-                        <p class="mb-1">Date released</p> 
+                        <p class="mb-1">Date released</p>
                         <h5 class="mb-1 font-italic">{{getCar()['dateFrom(MontYear)']}}</h5>
                     </div>
 
-                    
 
-                </el-card>            
+
+                </el-card>
             </el-col>
             <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" v-if="eco">
                 <el-card class="box-card mb-2">
@@ -72,7 +72,7 @@
                             v-model="getCar()['euroEmisionStandard']"
                             disabled>
                         </el-rate>
-                        
+
                     </div>
                     <div class="text item mb-3">
                         <p class="mb-1">CO<sub>2</sub> emissions: {{getCar()['cO2Emision']}} g/km</p>
@@ -88,7 +88,7 @@
                         <el-progress :show-text="false" :percentage="getCar()['milesPerTank']/10" color="#838397"></el-progress>
                     </div>
 
-                </el-card>            
+                </el-card>
             </el-col>
             <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" v-if="capacity">
                 <el-card class="box-card mb-2">
@@ -96,7 +96,7 @@
                         <h4 style="display: inline;">Capacity</h4>
                         <el-button style="float: right; padding: 6px;" type="text" @click="hideCapacity()">Hide</el-button>
                     </div>
-                    <!-- 
+                    <!--
                         de normalizat: luggageCapacity, fuelCapacity, power, cO2Emision, consumption, milesPerTank
 
                         imparteala:
@@ -146,7 +146,7 @@
                         <p class="mb-1"><i class="el-icon-more"></i>Torque {{getCar()['torque']}}</p>
                     </div>
 
-                </el-card>            
+                </el-card>
             </el-col>
         </el-row>
 
@@ -178,9 +178,9 @@
           "euroEmisionStandard", "milesPerTank"
         ],
         hiddenColumns: ['carID'],
-        favouriteCars: [],
-        favouriteCarsIDs: [],
-        carList: [],
+        favouriteCars: JSON.parse(localStorage.getItem('favoritesList')) || [],
+        favouriteCarsIDs: (JSON.parse(localStorage.getItem('favoritesList')) || []).map(el => { return el.carID }),
+        carList: JSON.parse(localStorage.getItem('carList')) || [],
         filteredCarList: [],
         isDialogVisible: false,
         capacity: true,
@@ -193,7 +193,7 @@
     },
 
     components: {
-      
+
     },
 
     computed: {...mapState({
@@ -201,7 +201,7 @@
         stateFavouriteCarList: state => state.favoritesCarsList
       })
     },
-    
+
 
     watch: {
     },
@@ -255,7 +255,7 @@
             "cO2Emision": "156",
             "euroEmisionStandard": 6,
             "milesPerTank": "721"
-        }                                     
+        }
       },
 
       toggleFavouriteCar(carID) {
@@ -289,15 +289,15 @@
         this.carList.forEach((element, i) => {
           if (element.carID == carID) {
             index = i;
-          } 
+          }
         });
-      
+
         console.log(this.carList, carID);
 
         if (index > -1) {
           this.currentCar = this.filteredCarList[index];
           this.isDialogVisible = true;
-        } 
+        }
      },
 
       getData() {

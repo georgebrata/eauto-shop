@@ -31,7 +31,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column :prop="column" :label="$t(column)" show-overflow-tooltip min-width="30" width="155" 
+            <el-table-column :prop="column" :label="$t(column)" show-overflow-tooltip min-width="30" width="155"
               v-if="!hiddenColumns.includes(column)" v-for="column in columns.slice(2,19)" v-bind:key="column">
               <template slot-scope="scope">
                 <span v-html="scope.row[column]"></span>
@@ -80,9 +80,9 @@
           "euroEmisionStandard", "milesPerTank"
         ],
         hiddenColumns: ['carID'],
-        favouriteCars: [],
-        favouriteCarsIDs: [],
-        carList: [],
+        favouriteCars: JSON.parse(localStorage.getItem('favoritesList')) || [],
+        favouriteCarsIDs: (JSON.parse(localStorage.getItem('favoritesList')) || []).map(el => { return el.carID }),
+        carList: JSON.parse(localStorage.getItem('carList')) || [],
         filteredCarList: [],
         isDialogVisible: false,
         currentPage: 1,
@@ -91,7 +91,7 @@
     },
 
     components: {
-      
+
     },
 
     computed: {...mapState({
@@ -99,7 +99,7 @@
         stateFavouriteCarList: state => state.favoritesCarsList
       })
     },
-    
+
 
     watch: {
       carList() {
@@ -114,6 +114,7 @@
 
     mounted() {
       this.getData();
+      console.log('favouriteCars:', this.favouriteCars)
     },
 
     filters: {},
@@ -146,8 +147,17 @@
         })
 
         if (this.favouriteCars.find(car => { return car.carID == carID; })) {
+          this.carList.forEach(function(car, i) {
+            if(car.carID == carID) {
+              index = i;
+            }
+          })
+
+          this.favouriteCars.splice(index, 1);
           this.$setFavoritesList(Array.concat(this.favouriteCars, []));
+
         } else {
+          console.log(newFavouriteCar)
           this.favouriteCars.push(newFavouriteCar);
           this.$setFavoritesList(Array.concat(this.favouriteCars, []));
         }

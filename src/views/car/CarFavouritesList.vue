@@ -8,12 +8,12 @@
     <div class="module-content">
 
       <div class="panel panel-default">
-        <el-input v-if="stateFavouriteCarList.length > 0" placeholder="Type a car make ..." prefix-icon="el-icon-search" class="mb-2" @keydown.native="search">
+        <el-input v-if="favouriteCars.length > 0" placeholder="Type a car make ..." prefix-icon="el-icon-search" class="mb-2" @keydown.native="search">
           <template slot="prepend">Search for a car</template>
         </el-input>
 
         <div class="panel-body">
-          <el-table v-if="stateFavouriteCarList.length > 0" :data="stateFavouriteCarList" border stripe highlight-current-row height="80vh" style="width: 100%">
+          <el-table v-if="favouriteCars.length > 0" :data="favouriteCars" border stripe highlight-current-row height="80vh" style="width: 100%">
 
             <el-table-column prop="make" label="Make" show-overflow-tooltip min-width="30" width="130">
               <template slot-scope="scope">
@@ -31,7 +31,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column :prop="column" :label="$t(column)" show-overflow-tooltip min-width="30" width="155" 
+            <el-table-column :prop="column" :label="$t(column)" show-overflow-tooltip min-width="30" width="155"
               v-if="!hiddenColumns.includes(column)" v-for="column in columns.slice(0,19)" v-bind:key="column">
               <template slot-scope="scope">
                 <span v-html="scope.row[column]"></span>
@@ -50,7 +50,7 @@
             </el-table-column>
           </el-table>
 
-            <el-alert v-if="stateFavouriteCarList.length === 0"
+            <el-alert v-if="favouriteCars.length === 0"
               title="You have no favourite cars."
               type="warning"
               description="Add cars to your favourites directory by navigating to the main car list."
@@ -80,9 +80,9 @@
           "euroEmisionStandard", "milesPerTank"
         ],
         hiddenColumns: ['carID'],
-        favouriteCarsIDs: [],
-        favouriteCars: [],
-        carList: [],
+        favouriteCars: JSON.parse(localStorage.getItem('favoritesList')) || [],
+        favouriteCarsIDs: (JSON.parse(localStorage.getItem('favoritesList')) || []).map(el => { return el.carID }),
+        carList: JSON.parse(localStorage.getItem('carList')) || [],
         filteredCarList: [],
         isDialogVisible: false,
         currentPage: 1,
@@ -90,8 +90,7 @@
       };
     },
 
-    components: {
-    },
+    components: {},
 
     computed: {...mapState({
         stateCarList: state => state.carList,
@@ -99,12 +98,18 @@
       })
     },
 
-    watch: {},
+    watch: {
+      stateCarList(newVal) {
+        localStorage.setItem('carList', JSON.stringify(newVal));
+      },
+      stateFavouriteCarList(newVal) {
+        localStorage.setItem('favoritesList', JSON.stringify(newVal));
+      }
+    },
 
     created() {},
 
-    mounted() {
-    },
+    mounted() {},
 
     filters: {},
 
@@ -112,7 +117,7 @@
       handleSizeChange(val) {},
 
       removeFromFavorites(carID) {
-        
+
         let index = this.favouriteCarsIDs.indexOf(carID);
 
         if (index > -1) {
@@ -123,7 +128,7 @@
             type: 'success'
           });
 
-        } 
+        }
 
         this.carList.forEach(function(car, i) {
           if(car.carID == carID) {
@@ -133,7 +138,6 @@
 
         this.favouriteCars.splice(index, 1);
         this.$setFavoritesList(Array.concat(this.favouriteCars, []));
-        
       },
 
       search(e) {

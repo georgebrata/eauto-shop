@@ -1,6 +1,6 @@
 <template>
   <section class="page-module">
-    
+
     <div class="module-header">
       <h3 style="display: inline;">{{this.$route.params.make}}</h3>
 
@@ -10,7 +10,7 @@
         disabled>
       </el-rate>
     </div>
-    
+
     <div class="module-content">
 
       <div class="panel panel-default">
@@ -44,7 +44,7 @@
 
         <el-input placeholder="Type a model ..." prefix-icon="el-icon-search" class="mb-2" @keydown.native="search">
           <template slot="prepend">Browse {{this.$route.params.make}} cars</template>
-          <template slot="append">  
+          <template slot="append">
               <el-button type="primary" icon="el-icon-edit" circle></el-button>
           </template>
         </el-input>
@@ -83,9 +83,9 @@
           "euroEmisionStandard", "milesPerTank"
         ],
         hiddenColumns: ['carID'],
-        favouriteCars: [],
-        favouriteCarsIDs: [],
-        carList: [],
+        favouriteCars: JSON.parse(localStorage.getItem('favoritesList')) || [],
+        favouriteCarsIDs: (JSON.parse(localStorage.getItem('favoritesList')) || []).map(el => { return el.carID }),
+        carList: JSON.parse(localStorage.getItem('carList')) || [],
         filteredCarList: [],
         isDialogVisible: false,
         currentPage: 1,
@@ -94,7 +94,7 @@
     },
 
     components: {
-      
+
     },
 
     computed: {...mapState({
@@ -153,13 +153,13 @@
         this.carList.forEach((element, i) => {
           if (element.carID == carID) {
             index = i;
-          } 
+          }
         });
-      
+
         if (index > -1) {
           this.currentCar = this.filteredCarList[index];
           this.isDialogVisible = true;
-        } 
+        }
      },
 
      getFuelTypes() {

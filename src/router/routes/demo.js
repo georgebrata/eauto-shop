@@ -3,14 +3,24 @@ import Dashboard from '@views/partials/Dashboard'
 
 export default [
   {
-  path: '/',
+  path: '',
   component: Frame,
   fullpath: '',
-  // isHideInMenu: true,
+  //isHideInMenu: true,
   meta: {
-    title: "Masini"
+    title: "Menu"
   },
   children: [
+      {
+      path: '',
+      fullpath: '',
+      isHideInMenu: true,
+      meta: {
+        title: "All cars",
+        ignoreAuth: false
+      },
+      component: resolve => require(['@views/car/CarList'], resolve)
+    },
     {
       path: '/cars/all',
       fullpath: '/cars/list',

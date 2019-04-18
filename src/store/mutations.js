@@ -18,10 +18,12 @@ export default {
 
   $vuexSetCarList (state, carList) {
     state.carList = carList;
+    localStorage.setItem('carList', JSON.stringify(carList));
   },
 
   $vuexSetFavoritesList (state, favoritesList) {
     state.favoritesCarsList = favoritesList;
+    localStorage.setItem('favoritesList', JSON.stringify(favoritesList));
   }
 
 }

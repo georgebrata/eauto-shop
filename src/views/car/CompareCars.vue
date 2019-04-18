@@ -12,8 +12,8 @@
         <div class="panel-body">
 
           <el-row :gutter="12">
-            <el-col :xs="20" :lg="20" :offset="2">
-              <choose-car :all-cars="this.stateCarList" v-if="!carOneID" :cars="this.stateFavouriteCarList" @select="selectCarOne"></choose-car>
+            <el-col :xs="20" :sm="20" :lg="20" :md="20" :xl="20" :offset="2">
+              <choose-car :all-cars="carList" v-if="!carOneID" :cars="favouriteCars" @select="selectCarOne"></choose-car>
             </el-col>
           </el-row>
 
@@ -23,14 +23,14 @@
             </el-col>
 
             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-              <choose-car v-if="!carTwoID" :all-cars="this.stateCarList" :cars="this.stateFavouriteCarList" @select="selectCarTwo"></choose-car>
+              <choose-car v-if="!carTwoID" :all-cars="carList" :cars="favouriteCars" @select="selectCarTwo"></choose-car>
               <car-parts v-if="carTwoID" :car="getCar()" :header="true"></car-parts>
             </el-col>
           </el-row>
 
         </div>
       </div>
-    </div> 
+    </div>
   </section>
 </template>
 
@@ -54,9 +54,9 @@
           "euroEmisionStandard", "milesPerTank"
         ],
         hiddenColumns: ['carID'],
-        favouriteCars: [],
-        favouriteCarsIDs: [],
-        carList: [],
+        favouriteCars: JSON.parse(localStorage.getItem('favoritesList')) || [],
+        favouriteCarsIDs: (JSON.parse(localStorage.getItem('favoritesList')) || []).map(el => { return el.carID }),
+        carList: JSON.parse(localStorage.getItem('carList')) || [],
         filteredCarList: [],
         carOne: null,
         carTwo: null,
@@ -80,7 +80,7 @@
     created() {},
 
     mounted() {
-      this.getData();     
+      this.getData();
     },
 
     filters: {},
@@ -112,7 +112,7 @@
         this.carTwoID = car.carID
       },
       getCar() {
-        return this.carOne;                                   
+        return this.carOne;
       },
       getCar2() {
         return this.carTwo;

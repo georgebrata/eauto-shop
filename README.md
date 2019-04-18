@@ -38,7 +38,7 @@ yarn install
 yarn run dev
 ```
 
-This will automatically open http://localhost:8080.
+This will automatically open http://localhost:9999.
 
 
 #### Build

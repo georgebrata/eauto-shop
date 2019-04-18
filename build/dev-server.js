@@ -66,7 +66,7 @@ let staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsS
 app.use(staticPath, express.static('./static'))
 
 
-portfinder.basePort = +process.env.PORT || config.dev.port || 8080
+portfinder.basePort = +process.env.PORT || config.dev.port || 9999
 
 module.exports = portfinder.getPortPromise().then(port => {
   const urls = utils.prepareUrls('http', '0.0.0.0', port)
