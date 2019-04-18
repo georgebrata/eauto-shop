@@ -23,7 +23,7 @@ export default [
     },
     {
       path: '/cars/all',
-      fullpath: '/cars/list',
+      fullpath: '/cars/all',
       meta: {
         title: "All cars",
         ignoreAuth: false
