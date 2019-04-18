@@ -10,9 +10,6 @@
       <div class="panel panel-default">
         <el-input placeholder="Type a car make ..." prefix-icon="el-icon-search" class="mb-2" @keydown.native="search">
           <template slot="prepend">Search for a car</template>
-          <template slot="append">  
-              <el-button type="primary" icon="el-icon-edit" circle></el-button>
-          </template>
         </el-input>
 
         <div class="panel-body">
@@ -117,10 +114,6 @@
 
     mounted() {
       this.getData();
-      setTimeout(() => {
-        //console.log(this.stateCarList);
-        //console.log(this.stateFavouriteCarList);
-      }, 7000);
     },
 
     filters: {},
@@ -159,22 +152,6 @@
           this.$setFavoritesList(Array.concat(this.favouriteCars, []));
         }
       },
-
-     viewCarDetails(carID) {
-        let index = -1;
-        this.carList.forEach((element, i) => {
-          if (element.carID == carID) {
-            index = i;
-          } 
-        });
-      
-        console.log(this.carList, carID);
-
-        if (index > -1) {
-          this.currentCar = this.filteredCarList[index];
-          this.isDialogVisible = true;
-        } 
-     },
 
       getData() {
         if (this.stateCarList.length) {

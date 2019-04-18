@@ -3,13 +3,13 @@
     
     <div class="module-header">
       <h3>{{getCar()['make']}} {{getCar()['model']}} <el-tag type="info">{{getCar()['dateFrom(MontYear)']}}</el-tag> </h3>
-        <el-button class="hidden-sm-and-down" type="primary" style="position: absolute; right: 20px; top: 15px;"><i class="el-icon-menu mr-3"></i>Compare this car</el-button>
+        <el-button class="hidden-sm-and-down" type="primary" style="position: absolute; right: 20px; top: 15px;"><i class="el-icon-menu mr-3"></i>Compare this car with others</el-button>
         <el-button class="hidden-md-and-up" type="primary" style="position: absolute; right: 20px; top: 15px;"><i class="el-icon-menu"></i></el-button>
     </div>
     
     <div class="module-content">
-        <el-row :gutter="12">
-            <el-col :xs="24" :sm="24" :md="12" :lg="6" :xl="6" v-if="general">
+        <el-row>
+            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" v-if="general">
                 <el-card class="box-card mb-2">
                     <div slot="header" class="clearfix">
                         <h4 style="display: inline;">General</h4>
@@ -60,7 +60,7 @@
 
                 </el-card>            
             </el-col>
-            <el-col :xs="24" :sm="24" :md="12" :lg="6" :xl="6" v-if="eco">
+            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" v-if="eco">
                 <el-card class="box-card mb-2">
                     <div slot="header" class="clearfix">
                         <h4 style="display: inline;">ECO</h4>
@@ -90,7 +90,7 @@
 
                 </el-card>            
             </el-col>
-            <el-col :xs="24" :sm="24" :md="12" :lg="6" :xl="6" v-if="capacity">
+            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" v-if="capacity">
                 <el-card class="box-card mb-2">
                     <div slot="header" class="clearfix">
                         <h4 style="display: inline;">Capacity</h4>
@@ -123,7 +123,7 @@
 
                 </el-card>
             </el-col>
-            <el-col :xs="24" :sm="24" :md="12" :lg="6" :xl="6" v-if="performance">
+            <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" v-if="performance">
                 <el-card class="box-card mb-2">
                     <div slot="header" class="clearfix">
                         <h4 style="display: inline;">Performance</h4>

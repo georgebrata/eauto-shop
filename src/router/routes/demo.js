@@ -59,6 +59,26 @@ export default [
       component: resolve => require(['@views/car/CompareCars'], resolve)
     },
     {
+      path: '/cars/compare/:carid1/:carid2',
+      fullpath: '/cars/compare/:carid1/:carid2',
+      isHideInMenu: true,
+      meta: {
+        title: "Compare cars",
+        ignoreAuth: false
+      },
+      component: resolve => require(['@views/car/CompareCars'], resolve)
+    },
+    {
+      path: '/cars/compare/:carid1',
+      fullpath: '/cars/compare/:carid1',
+      isHideInMenu: true,
+      meta: {
+        title: "Compare cars",
+        ignoreAuth: false
+      },
+      component: resolve => require(['@views/car/CompareCars'], resolve)
+    },
+    {
       path: '/cars/suggest',
       fullpath: '/cars/suggest',
       isHideInMenu: false,

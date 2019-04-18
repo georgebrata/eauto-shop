@@ -10,13 +10,26 @@
       <div class="panel panel-default">
         <el-input v-if="stateFavouriteCarList.length > 0" placeholder="Type a car make ..." prefix-icon="el-icon-search" class="mb-2" @keydown.native="search">
           <template slot="prepend">Search for a car</template>
-          <template slot="append">  
-              <el-button type="primary" icon="el-icon-edit" circle></el-button>
-          </template>
         </el-input>
 
         <div class="panel-body">
           <el-table v-if="stateFavouriteCarList.length > 0" :data="stateFavouriteCarList" border stripe highlight-current-row height="80vh" style="width: 100%">
+
+            <el-table-column prop="make" label="Make" show-overflow-tooltip min-width="30" width="130">
+              <template slot-scope="scope">
+                <router-link tag="a" :to="`/cars/makes/${scope.row['make']}`">
+                  <span v-html="scope.row['make']"></span>
+                </router-link>
+              </template>
+            </el-table-column>
+
+            <el-table-column prop="model" label="Model" show-overflow-tooltip min-width="30" width="150">
+              <template slot-scope="scope">
+                <router-link tag="a" :to="`/cars/models/${scope.row['model']}`">
+                  <span v-html="scope.row['model']"></span>
+                </router-link>
+              </template>
+            </el-table-column>
 
             <el-table-column :prop="column" :label="$t(column)" show-overflow-tooltip min-width="30" width="155" 
               v-if="!hiddenColumns.includes(column)" v-for="column in columns.slice(0,19)" v-bind:key="column">
@@ -61,7 +74,7 @@
     data() {
       return {
         searchTerm: '',
-        columns: ['make', 'model', "carID", "dateFrom(MontYear)", "dateTo(MontYear)", "fuelType", "usedPriceRange",
+        columns: ["carID", "dateFrom(MontYear)", "dateTo(MontYear)", "fuelType", "usedPriceRange",
           "newPrice", "transmision", "gearBox", "drivetrain", "luggageCapacity", "doors", "seats", "safetyAsist",
           "fuelCapacity", "consumption", "power", "topSpeed", "0-60mph", "torque", "cO2Emision",
           "euroEmisionStandard", "milesPerTank"
