@@ -21,7 +21,7 @@ export default {
   },
 
   $vuexSetFavoritesList (state, favoritesList) {
-    state.favoritesList = favoritesList;
+    state.favoritesCarsList = favoritesList;
   }
 
 }

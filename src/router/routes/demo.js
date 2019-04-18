@@ -12,8 +12,8 @@ export default [
   },
   children: [
     {
-      path: '/car/list',
-      fullpath: '/car/list',
+      path: '/cars/all',
+      fullpath: '/cars/list',
       meta: {
         title: "All cars",
         ignoreAuth: false
@@ -21,8 +21,28 @@ export default [
       component: resolve => require(['@views/car/CarList'], resolve)
     },
     {
-      path: '/car/favourites',
-      fullpath: '/car/favourites',
+      path: '/cars/makes/:make',
+      fullpath: '/cars/makes/:make',
+      isHideInMenu: true,
+      meta: {
+        title: "All cars by make",
+        ignoreAuth: false
+      },
+      component: resolve => require(['@views/car/CarListByMake'], resolve)
+    },
+    {
+      path: '/cars/models/:model',
+      fullpath: '/cars/models/:model',
+      isHideInMenu: true,
+      meta: {
+        title: "Car details",
+        ignoreAuth: false
+      },
+      component: resolve => require(['@views/car/CarDetails'], resolve)
+    },
+    {
+      path: '/cars/favourites',
+      fullpath: '/cars/favourites',
       meta: {
         title: "My favourites",
         ignoreAuth: false
@@ -30,8 +50,8 @@ export default [
       component: resolve => require(['@views/car/CarFavouritesList'], resolve)
     },
     {
-      path: '/car/compare',
-      fullpath: '/car/compare',
+      path: '/cars/compare',
+      fullpath: '/cars/compare',
       meta: {
         title: "Compare cars",
         ignoreAuth: false
@@ -39,8 +59,8 @@ export default [
       component: resolve => require(['@views/car/CompareCars'], resolve)
     },
     {
-      path: '/car/suggest',
-      fullpath: '/car/suggest',
+      path: '/cars/suggest',
+      fullpath: '/cars/suggest',
       isHideInMenu: false,
       meta: {
         title: "Suggest a car",

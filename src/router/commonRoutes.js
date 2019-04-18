@@ -10,11 +10,11 @@ export default [
   },
   {
     path: '/',
-    redirect: '/car/list'
+    redirect: '/cars/all'
   },
   {
     path: '',
-    redirect: '/car/list'
+    redirect: '/cars/all'
   },
   {
     path: '*',

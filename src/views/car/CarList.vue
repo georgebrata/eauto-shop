@@ -16,26 +16,44 @@
         </el-input>
 
         <div class="panel-body">
-          <el-table :data="filteredCarList" border stripe highlight-current-row height="80vh" style="width: 100%">
+          <el-table :data="filteredCarList" border stripe highlight-current-row height="80vh" style="width: 100%" v-loading="isLoading">
+
+            <el-table-column prop="make" label="Make" show-overflow-tooltip min-width="30" width="130">
+              <template slot-scope="scope">
+                <router-link tag="a" :to="`/cars/makes/${scope.row['make']}`">
+                  <span v-html="scope.row['make']"></span>
+                </router-link>
+              </template>
+            </el-table-column>
+
+            <el-table-column prop="model" label="Model" show-overflow-tooltip min-width="30" width="150">
+              <template slot-scope="scope">
+                <router-link tag="a" :to="`/cars/models/${scope.row['model']}`">
+                  <span v-html="scope.row['model']"></span>
+                </router-link>
+              </template>
+            </el-table-column>
 
             <el-table-column :prop="column" :label="$t(column)" show-overflow-tooltip min-width="30" width="155" 
-              v-if="!hiddenColumns.includes(column)" v-for="column in columns.slice(0,19)" v-bind:key="column">
+              v-if="!hiddenColumns.includes(column)" v-for="column in columns.slice(2,19)" v-bind:key="column">
               <template slot-scope="scope">
                 <span v-html="scope.row[column]"></span>
               </template>
             </el-table-column>
 
-            <el-table-column :label="''" width="80" fixed="right">
+            <el-table-column :label="''" width="40" fixed="right">
               <template slot-scope="scope">
                 <div class="operation-area">
                   <a :href="scope.row.address" class="heart-link" target="_blank" rel="noreferrer noopener" title="Favorite this car"
                     @click="toggleFavouriteCar(scope.row.carID)">
-                    <span :class="favouriteCars.includes(scope.row.carID) ? 'el-icon-star-on' : 'el-icon-star-off'"></span>
+                    <span :class="favouriteCarsIDs.includes(scope.row.carID) ? 'el-icon-star-on' : 'el-icon-star-off'"></span>
                   </a>
+                  <!--
                   <a :href="scope.row.address" class="details-link" target="_blank" rel="noreferrer noopener" title="View more details about this car"
                     @click="viewCarDetails(scope.row.carID)">
                     <span class="el-icon-zoom-in"></span>
                   </a>
+                  -->
                 </div>
               </template>
             </el-table-column>
@@ -43,16 +61,13 @@
         </div>
       </div>
 
-      <edit-dialog :car="currentCar" :visible="isDialogVisible">
-      </edit-dialog>
-
     </div>
   </section>
 </template>
 
 <script>
-  import EditDialog from "./EditDialog";
   import translations from "../../translations.js";
+  import {mapState, mapActions} from 'vuex'
 
   export default {
     name: "CarList",
@@ -60,6 +75,7 @@
 
     data() {
       return {
+        isLoading: true,
         searchTerm: '',
         columns: ['make', 'model', "carID", "dateFrom(MontYear)", "dateTo(MontYear)", "fuelType", "usedPriceRange",
           "newPrice", "transmision", "gearBox", "drivetrain", "luggageCapacity", "doors", "seats", "safetyAsist",
@@ -68,6 +84,7 @@
         ],
         hiddenColumns: ['carID'],
         favouriteCars: [],
+        favouriteCarsIDs: [],
         carList: [],
         filteredCarList: [],
         isDialogVisible: false,
@@ -77,17 +94,33 @@
     },
 
     components: {
-      EditDialog
+      
     },
 
-    computed: {},
+    computed: {...mapState({
+        stateCarList: state => state.carList,
+        stateFavouriteCarList: state => state.favoritesCarsList
+      })
+    },
+    
 
-    watch: {},
+    watch: {
+      carList() {
+        //alert(1)
+      },
+      stateCarList() {
+        //alert(1)
+      }
+    },
 
     created() {},
 
     mounted() {
       this.getData();
+      setTimeout(() => {
+        //console.log(this.stateCarList);
+        //console.log(this.stateFavouriteCarList);
+      }, 7000);
     },
 
     filters: {},
@@ -96,10 +129,10 @@
       handleSizeChange(val) {},
 
       toggleFavouriteCar(carID) {
-        let index = this.favouriteCars.indexOf(carID);
+        let index = this.favouriteCarsIDs.indexOf(carID);
 
         if (index > -1) {
-          this.favouriteCars.splice(index, 1);
+          this.favouriteCarsIDs.splice(index, 1);
 
           this.$message({
             message: 'Car removed from favourites successfully.',
@@ -107,7 +140,7 @@
           });
 
         } else {
-          this.favouriteCars.push(carID);
+          this.favouriteCarsIDs.push(carID);
 
           this.$message({
             message: 'Successfully added car to favourites.',
@@ -115,8 +148,16 @@
           });
 
         }
+        let newFavouriteCar = this.carList.find(function(car) {
+          return car.carID == carID;
+        })
 
-        this.$setFavoritesList(this.favouriteCars);
+        if (this.favouriteCars.find(car => { return car.carID == carID; })) {
+          this.$setFavoritesList(Array.concat(this.favouriteCars, []));
+        } else {
+          this.favouriteCars.push(newFavouriteCar);
+          this.$setFavoritesList(Array.concat(this.favouriteCars, []));
+        }
       },
 
      viewCarDetails(carID) {
@@ -136,14 +177,22 @@
      },
 
       getData() {
-        this.$apis.car.fetchAll().then(carList => {
-            this.carList = carList;
-            this.filteredCarList = carList;
-            this.$setCarList(carList);
-          }).catch(err => {
-            this.isLoading = false;
-            this.hasError = true;
-          });
+        if (this.stateCarList.length) {
+          this.carList = this.stateCarList
+          this.filteredCarList = this.stateCarList
+          this.isLoading = false;
+        } else {
+          this.isLoading = true;
+          this.$apis.car.fetchAll().then(carList => {
+              this.isLoading = false;
+              this.carList = carList;
+              this.filteredCarList = carList;
+              this.$setCarList(carList);
+            }).catch(err => {
+              this.isLoading = false;
+              this.hasError = true;
+            });
+        }
       },
 
       search(e) {
@@ -156,6 +205,7 @@
             return item[column] && item[column].toString().includes(this.searchTerm);
           })
           */
+
          //search only works by make
          return item['make'] && item['make'].toString().toLowerCase().includes(searchTerm.toLowerCase());
         })

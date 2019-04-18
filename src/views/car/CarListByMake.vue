@@ -1,86 +1,91 @@
 <template>
   <section class="page-module">
-    <!--
+    
     <div class="module-header">
-      <h3>All cars</h3>
+      <h3 style="display: inline;">{{this.$route.params.make}} electric cars</h3>
+
+      <el-rate
+        style="float:right; margin-top: 5px;"
+        v-model="stateFavouriteCarList.length"
+        disabled>
+      </el-rate>
     </div>
-    -->
+    
     <div class="module-content">
 
       <div class="panel panel-default">
-        <el-input placeholder="Type a car make ..." prefix-icon="el-icon-search" class="mb-2" @keydown.native="search">
-          <template slot="prepend">Search for a car</template>
+<!--
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-card class="box-card">
+              <div slot="header" class="clearfix">
+                <span>Card name</span>
+              </div>
+              <div v-for="o in 4" :key="o" class="text item">
+                {{'List item ' + o }}
+              </div>
+            </el-card>
+
+          </el-col>
+          <el-col :span="12">
+
+            <el-card class="box-card">
+              <div slot="header" class="clearfix">
+                <span>Card name</span>
+              </div>
+                <el-progress style="text-align: center;" type="circle" :percentage="100" status="text">20 cars</el-progress>
+                <h2 style="height: auto;"></h2>
+
+            </el-card>
+
+          </el-col>
+        </el-row>
+        <hr>
+
+        <el-input placeholder="Type a model ..." prefix-icon="el-icon-search" class="mb-2" @keydown.native="search">
+          <template slot="prepend">Browse {{this.$route.params.make}} cars</template>
           <template slot="append">  
               <el-button type="primary" icon="el-icon-edit" circle></el-button>
           </template>
         </el-input>
-
+-->
         <div class="panel-body">
-          <el-table :data="filteredCarList" border stripe highlight-current-row height="80vh" style="width: 100%">
-
-            <el-table-column :prop="column" :label="$t(column)" show-overflow-tooltip min-width="30" width="155" 
-              v-if="!hiddenColumns.includes(column)" v-for="column in columns.slice(0,19)" v-bind:key="column">
-              <template slot-scope="scope">
-                <span v-html="scope.row[column]"></span>
-              </template>
-            </el-table-column>
-
-            <el-table-column :label="''" width="41" fixed="right">
-              <template slot-scope="scope">
-                <div class="operation-area">
-                  <a :href="scope.row.address" class="heart-link" target="_blank" rel="noreferrer noopener" title="Favorite this car"
-                    @click="toggleFavouriteCar(scope.row.carID)">
-                    <span :class="favouriteCars.includes(scope.row.carID) ? 'el-icon-star-on' : 'el-icon-star-off'"></span>
-                  </a>
-                </div>
-              </template>
-            </el-table-column>
-          </el-table>
+          <el-card shadow="hover" v-for="car in filteredCarList.filter(el => el.make == this.$route.params.make)" v-bind="car['carID']">
+            {{car['model']}}
+            <el-button type="text" class="button" @click="viewCar(car)" style="float: right;padding:0;">View car</el-button>
+          </el-card>
         </div>
       </div>
 
-      <edit-dialog :pdata="currentRowData" v-model="isDialogVisible" @dispatch-data="onUpdateRowData">
-      </edit-dialog>
-
     </div>
-
-    <el-dialog
-      title="Warning"
-      :visible.sync="centerDialogVisible"
-      width="30%"
-      center>
-      <span>It should be noted that the content will not be aligned in center by default</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="centerDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="centerDialogVisible = false">Confirm</el-button>
-      </span>
-    </el-dialog>  
   </section>
 </template>
 
 <script>
   import translations from "../../translations.js";
+  import {mapState, mapActions} from 'vuex'
 
   export default {
-    name: "CompareCars",
+    name: "CarListByMake",
     props: {},
 
     data() {
       return {
         searchTerm: '',
-        columns: ['make', 'model', "carID", "dateFrom(MontYear)", "dateTo(MontYear)", "fuelType", "usedPriceRange",
+        isLoading: true,
+        columns: ['model', "carID", "dateFrom(MontYear)", "dateTo(MontYear)", "fuelType", "usedPriceRange",
           "newPrice", "transmision", "gearBox", "drivetrain", "luggageCapacity", "doors", "seats", "safetyAsist",
           "fuelCapacity", "consumption", "power", "topSpeed", "0-60mph", "torque", "cO2Emision",
           "euroEmisionStandard", "milesPerTank"
         ],
         hiddenColumns: ['carID'],
         favouriteCars: [],
+        favouriteCarsIDs: [],
         carList: [],
         filteredCarList: [],
         isDialogVisible: false,
         currentPage: 1,
-        currentRowData: {},
-        currentRowIndex: -1
+        currentCar: {},
       };
     },
 
@@ -88,8 +93,11 @@
       
     },
 
-    computed: {},
-
+    computed: {...mapState({
+        stateCarList: state => state.carList,
+        stateFavouriteCarList: state => state.favoritesCarsList
+      })
+    },
     watch: {},
 
     created() {},
@@ -101,13 +109,14 @@
     filters: {},
 
     methods: {
-      handleSizeChange(val) {},
-
+      viewCar(car) {
+        this.$router.push(`/cars/models/${car['model']}`);
+      },
       toggleFavouriteCar(carID) {
-        let index = this.favouriteCars.indexOf(carID);
-
+        //let index = this.favouriteCarsIDs.indexOf(carID);
+        let index = 0;
         if (index > -1) {
-          this.favouriteCars.splice(index, 1);
+          this.favouriteCarsIDs.splice(index, 1);
 
           this.$message({
             message: 'Car removed from favourites successfully.',
@@ -115,7 +124,7 @@
           });
 
         } else {
-          this.favouriteCars.push(carID);
+          this.favouriteCarsIDs.push(carID);
 
           this.$message({
             message: 'Successfully added car to favourites.',
@@ -123,43 +132,68 @@
           });
 
         }
+        let newFavouriteCar = this.carList.find(function(car) {
+          return car.carID == carID;
+        })
 
-        this.$setFavoritesList(this.favouriteCars);
+        if (this.favouriteCars.find(car => { return car.carID == carID; })) {
+          this.$setFavoritesList(Array.concat(this.favouriteCars, []));
+        } else {
+          this.favouriteCars.push(newFavouriteCar);
+          this.$setFavoritesList(Array.concat(this.favouriteCars, []));
+        }
       },
+
+     viewCarDetails(carID) {
+        let index = -1;
+        this.carList.forEach((element, i) => {
+          if (element.carID == carID) {
+            index = i;
+          } 
+        });
+      
+        if (index > -1) {
+          this.currentCar = this.filteredCarList[index];
+          this.isDialogVisible = true;
+        } 
+     },
+
+     getFuelTypes() {
+       let s = [];
+       filteredCarList.filter(el => el.make == this.$route.params.make).forEach(el => {
+         if (!s.includes(el.fuelType)) {
+           s.push(el.fuelType)
+         }
+       })
+       return s;
+
+     },
 
       getData() {
-        this.$apis.car.fetchAll().then(carList => {
-            this.carList = carList;
-            this.filteredCarList = carList;
-            this.$setCarList(carList);
-          }).catch(err => {
-            this.isLoading = false;
-            this.hasError = true;
-          });
-      },
-
-      handleCurrentChange(val) {
-        this.currentPage = val;
-        console.log(`当前页: ${val}`);
-      },
-
-      onUpdateRowData(data) {
-        this.currentRowData = data;
-        this.$set(this.tableData, this.currentRowIndex, data);
+        if (this.stateCarList.length) {
+          this.carList = this.stateCarList
+          this.filteredCarList = this.stateCarList
+          this.isLoading = false;
+        } else {
+          this.isLoading = true
+          this.$apis.car.fetchAll().then(carList => {
+              this.isLoading = false
+              this.carList = carList;
+              this.filteredCarList = carList;
+              this.$setCarList(carList);
+            }).catch(err => {
+              this.isLoading = false;
+              this.hasError = true;
+            });
+        }
       },
 
       search(e) {
         let searchTerm = e.target.value;
 
         let filteredCarList = this.carList.filter(item => {
-          //console.log(item)
-          /*
-          return this.columns.some(column => {
-            return item[column] && item[column].toString().includes(this.searchTerm);
-          })
-          */
-         //search only works by make
-         return item['make'] && item['make'].toString().toLowerCase().includes(searchTerm.toLowerCase());
+         //search only works by model
+         return item['model'] && item['model'].toString().toLowerCase().includes(searchTerm.toLowerCase());
         })
 
         this.filteredCarList = filteredCarList;
@@ -186,63 +220,10 @@
     .operation-area {
       @include flex-box-center(row);
     }
+  }
 
-    .heart {
-      content: "";
-      display: block;
-      width: 20px;
-      min-height: 16px;
-      position: relative;
-      transform-origin: 50% 50% 0;
-    }
-
-    .heart:before {
-      content: "";
-      display: block;
-      width: 10px;
-      height: 16px;
-      position: absolute;
-      top: 0;
-      left: 10px;
-      border-radius: 10px 10px 0 0;
-      background: #f05b72;
-      transform: rotateZ(-45deg);
-      transform-origin: 0 100% 0;
-    }
-
-    .heart:after {
-      content: "";
-      display: block;
-      width: 10px;
-      height: 16px;
-      position: absolute;
-      top: 0;
-      left: 0;
-      border-radius: 10px 10px 0 0;
-      background: #f05b72;
-      transform: rotateZ(45deg);
-      transform-origin: 100% 100% 0;
-    }
-    th {
-      font-weight: bold;
-    }
-
-    .heart-link {
-      cursor: pointer;
-
-      &:hover {
-        animation: vibrate-1 0.3s linear infinite both;
-      }
-
-      .el-icon-star-off {
-        color: gray;
-      }
-
-      .el-icon-star-on {
-        color: darkgoldenrod;
-        animation: jello-diagonal-1 0.8s both;
-      }
-    }
+  .el-card {
+    cursor: pointer;
   }
 
 

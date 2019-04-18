@@ -1,34 +1,58 @@
 <template>
   <section class="page-module">
-    
+    <!--
     <div class="module-header">
-      <h3>My favourite cars ✨</h3>
+      <h3>All cars</h3>
     </div>
-    
+    -->
     <div class="module-content">
 
       <div class="panel panel-default">
+        <el-input v-if="stateFavouriteCarList.length > 0" placeholder="Type a car make ..." prefix-icon="el-icon-search" class="mb-2" @keydown.native="search">
+          <template slot="prepend">Search for a car</template>
+          <template slot="append">  
+              <el-button type="primary" icon="el-icon-edit" circle></el-button>
+          </template>
+        </el-input>
 
         <div class="panel-body">
-          <el-table :data="carList" border stripe highlight-current-row height="80vh" style="width: 100%">
+          <el-table v-if="stateFavouriteCarList.length > 0" :data="stateFavouriteCarList" border stripe highlight-current-row height="80vh" style="width: 100%">
 
             <el-table-column :prop="column" :label="$t(column)" show-overflow-tooltip min-width="30" width="155" 
-              v-if="!hiddenColumns.includes(column)" v-for="column in columns" v-bind:key="column">
+              v-if="!hiddenColumns.includes(column)" v-for="column in columns.slice(0,19)" v-bind:key="column">
               <template slot-scope="scope">
                 <span v-html="scope.row[column]"></span>
               </template>
             </el-table-column>
+
+            <el-table-column :label="''" width="50" fixed="right">
+              <template slot-scope="scope">
+                <div class="operation-area">
+                  <a :href="scope.row.address" class="heart-link" target="_blank" rel="noreferrer noopener" title="Favorite this car"
+                    @click="removeFromFavorites(scope.row.carID)">
+                    <span class="el-icon-delete"></span>
+                  </a>
+                </div>
+              </template>
+            </el-table-column>
           </el-table>
+
+            <el-alert v-if="stateFavouriteCarList.length === 0"
+              title="You have no favourite cars."
+              type="warning"
+              description="Add cars to your favourites directory by navigating to the main car list."
+              show-icon>
+            </el-alert>
         </div>
       </div>
+
     </div>
   </section>
 </template>
 
 <script>
-  import EditDialog from "./EditDialog";
   import translations from "../../translations.js";
-  import { mapState } from 'vuex';
+  import {mapState, mapActions} from 'vuex'
 
   export default {
     name: "CarFavouritesList",
@@ -36,19 +60,31 @@
 
     data() {
       return {
-        orice: []
+        searchTerm: '',
+        columns: ['make', 'model', "carID", "dateFrom(MontYear)", "dateTo(MontYear)", "fuelType", "usedPriceRange",
+          "newPrice", "transmision", "gearBox", "drivetrain", "luggageCapacity", "doors", "seats", "safetyAsist",
+          "fuelCapacity", "consumption", "power", "topSpeed", "0-60mph", "torque", "cO2Emision",
+          "euroEmisionStandard", "milesPerTank"
+        ],
+        hiddenColumns: ['carID'],
+        favouriteCarsIDs: [],
+        favouriteCars: [],
+        carList: [],
+        filteredCarList: [],
+        isDialogVisible: false,
+        currentPage: 1,
+        currentCar: {},
       };
     },
 
     components: {
-      EditDialog
     },
 
-    computed: mapState({
-        // arrow functions can make the code very succinct!
-        favouriteCars: state => state.favouriteCars,
-        carList: state => state.carList,
-    }),
+    computed: {...mapState({
+        stateCarList: state => state.carList,
+        stateFavouriteCarList: state => state.favoritesCarsList
+      })
+    },
 
     watch: {},
 
@@ -62,23 +98,47 @@
     methods: {
       handleSizeChange(val) {},
 
-      getData() {
-        let carList = Array.from(this.carList.filter(item => {
-            return item.carID === 1
-        }));
-        //console.log(carList);
+      removeFromFavorites(carID) {
+        
+        let index = this.favouriteCarsIDs.indexOf(carID);
+
+        if (index > -1) {
+          this.favouriteCarsIDs.splice(index, 1);
+
+          this.$message({
+            message: 'Car removed from favourites successfully.',
+            type: 'success'
+          });
+
+        } 
+
+        this.carList.forEach(function(car, i) {
+          if(car.carID == carID) {
+            index = i;
+          }
+        })
+
+        this.favouriteCars.splice(index, 1);
+        this.$setFavoritesList(Array.concat(this.favouriteCars, []));
+        
       },
 
-      handleCurrentChange(val) {
-        this.currentPage = val;
-        console.log(`当前页: ${val}`);
-      },
+      search(e) {
+        let searchTerm = e.target.value;
 
-      onUpdateRowData(data) {
-        this.currentRowData = data;
-        this.$set(this.tableData, this.currentRowIndex, data);
-      },
+        let filteredCarList = this.carList.filter(item => {
+          //console.log(item)
+          /*
+          return this.columns.some(column => {
+            return item[column] && item[column].toString().includes(this.searchTerm);
+          })
+          */
+         //search only works by make
+         return item['make'] && item['make'].toString().toLowerCase().includes(searchTerm.toLowerCase());
+        })
 
+        this.filteredCarList = filteredCarList;
+      }
     },
 
     locales: {
@@ -140,13 +200,22 @@
     }
     th {
       font-weight: bold;
+      height: 1.3rem;
+    }
+    .details-link {
+      margin-left: 10px;
+      cursor: pointer;
+      &:hover {
+        color: black;
+      }
     }
 
     .heart-link {
       cursor: pointer;
 
       &:hover {
-        animation: vibrate-1 0.3s linear infinite both;
+        -webkit-animation: heartbeat 1.5s ease-in-out both;
+	        animation: heartbeat 1.5s ease-in-out both;
       }
 
       .el-icon-star-off {
@@ -160,165 +229,84 @@
     }
   }
 
-
-
-  /* ----------------------------------------------
- * Generated by Animista on 2019-4-15 2:42:5
+/* ----------------------------------------------
+ * Generated by Animista on 2019-4-18 3:7:45
  * w: http://animista.net, t: @cssanimista
  * ---------------------------------------------- */
 
-  /**
+/**
  * ----------------------------------------
- * animation jello-diagonal-1
- * ----------------------------------------
- */
-  @-webkit-keyframes jello-diagonal-1 {
-    0% {
-      -webkit-transform: skew(0deg 0deg);
-      transform: skew(0deg 0deg);
-    }
-
-    30% {
-      -webkit-transform: skew(25deg 25deg);
-      transform: skew(25deg 25deg);
-    }
-
-    40% {
-      -webkit-transform: skew(-15deg, -15deg);
-      transform: skew(-15deg, -15deg);
-    }
-
-    50% {
-      -webkit-transform: skew(15deg, 15deg);
-      transform: skew(15deg, 15deg);
-    }
-
-    65% {
-      -webkit-transform: skew(-5deg, -5deg);
-      transform: skew(-5deg, -5deg);
-    }
-
-    75% {
-      -webkit-transform: skew(5deg, 5deg);
-      transform: skew(5deg, 5deg);
-    }
-
-    100% {
-      -webkit-transform: skew(0deg 0deg);
-      transform: skew(0deg 0deg);
-    }
-  }
-
-  @keyframes jello-diagonal-1 {
-    0% {
-      -webkit-transform: skew(0deg 0deg);
-      transform: skew(0deg 0deg);
-    }
-
-    30% {
-      -webkit-transform: skew(25deg 25deg);
-      transform: skew(25deg 25deg);
-    }
-
-    40% {
-      -webkit-transform: skew(-15deg, -15deg);
-      transform: skew(-15deg, -15deg);
-    }
-
-    50% {
-      -webkit-transform: skew(15deg, 15deg);
-      transform: skew(15deg, 15deg);
-    }
-
-    65% {
-      -webkit-transform: skew(-5deg, -5deg);
-      transform: skew(-5deg, -5deg);
-    }
-
-    75% {
-      -webkit-transform: skew(5deg, 5deg);
-      transform: skew(5deg, 5deg);
-    }
-
-    100% {
-      -webkit-transform: skew(0deg 0deg);
-      transform: skew(0deg 0deg);
-    }
-  }
-
-
-  /* ----------------------------------------------
- * Generated by Animista on 2019-4-15 2:40:49
- * w: http://animista.net, t: @cssanimista
- * ---------------------------------------------- */
-
-  /**
- * ----------------------------------------
- * animation vibrate-1
+ * animation heartbeat
  * ----------------------------------------
  */
-  @-webkit-keyframes vibrate-1 {
-    0% {
-      -webkit-transform: translate(0);
-      transform: translate(0);
-    }
-
-    20% {
-      -webkit-transform: translate(-0.5px, 0.5px);
-      transform: translate(-0.5px, 0.5px);
-    }
-
-    40% {
-      -webkit-transform: translate(-0.5px, -0.5px);
-      transform: translate(-0.5px, -0.5px);
-    }
-
-    60% {
-      -webkit-transform: translate(0.5px, 0.5px);
-      transform: translate(0.5px, 0.5px);
-    }
-
-    80% {
-      -webkit-transform: translate(0.5px, -0.5px);
-      transform: translate(0.5px, -0.5px);
-    }
-
-    100% {
-      -webkit-transform: translate(0);
-      transform: translate(0);
-    }
+@-webkit-keyframes heartbeat {
+  from {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-transform-origin: center center;
+            transform-origin: center center;
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
   }
-
-  @keyframes vibrate-1 {
-    0% {
-      -webkit-transform: translate(0);
-      transform: translate(0);
-    }
-
-    20% {
-      -webkit-transform: translate(-0.5px, 0.5px);
-      transform: translate(-0.5px, 0.5px);
-    }
-
-    40% {
-      -webkit-transform: translate(-0.5px, -0.5px);
-      transform: translate(-0.5px, -0.5px);
-    }
-
-    60% {
-      -webkit-transform: translate(0.5px, 0.5px);
-      transform: translate(0.5px, 0.5px);
-    }
-
-    80% {
-      -webkit-transform: translate(0.5px, -0.5px);
-      transform: translate(0.5px, -0.5px);
-    }
-
-    100% {
-      -webkit-transform: translate(0);
-      transform: translate(0);
-    }
+  10% {
+    -webkit-transform: scale(0.91);
+            transform: scale(0.91);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
   }
+  17% {
+    -webkit-transform: scale(0.98);
+            transform: scale(0.98);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  33% {
+    -webkit-transform: scale(0.87);
+            transform: scale(0.87);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  45% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+}
+@keyframes heartbeat {
+  from {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-transform-origin: center center;
+            transform-origin: center center;
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  10% {
+    -webkit-transform: scale(0.91);
+            transform: scale(0.91);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  17% {
+    -webkit-transform: scale(0.98);
+            transform: scale(0.98);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  33% {
+    -webkit-transform: scale(0.87);
+            transform: scale(0.87);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  45% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+}
+
 
 </style>
