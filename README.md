@@ -29,7 +29,7 @@ Open your terminal, navigate to a new location and then type the following:
 git clone https://github.com/kyokidG/eauto-shop.git
 
 # navigate to project folder
-cd hci-project
+cd eauto-shop
 
 # install dependency
 yarn install

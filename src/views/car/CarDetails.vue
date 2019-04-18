@@ -8,7 +8,7 @@
     </div>
 
     <div class="module-content">
-        <el-row>
+        <el-row :gutter="12">
             <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" v-if="general">
                 <el-card class="box-card mb-2">
                     <div slot="header" class="clearfix">

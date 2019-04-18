@@ -24,7 +24,7 @@
 
             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
               <choose-car v-if="!carTwoID" :all-cars="carList" :cars="favouriteCars" @select="selectCarTwo"></choose-car>
-              <car-parts v-if="carTwoID" :car="getCar()" :header="true"></car-parts>
+              <car-parts v-if="carTwoID" :car="getCar2()" :header="true"></car-parts>
             </el-col>
           </el-row>
 

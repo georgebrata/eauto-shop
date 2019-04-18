@@ -2,6 +2,7 @@ import Cookies from 'js-cookie'
 
 export default {
   checkSession () {
-    return Cookies.get('isLogin')
+    return true;
+    //return Cookies.get('isLogin')
   }
 }
