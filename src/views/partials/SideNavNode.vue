@@ -1,19 +1,12 @@
 <template>
-  <el-submenu v-if="isContainMore(model)" :index="model.fullpath">
-    <template slot="title">
-      <i v-if="model.icon" :class="`el-icon-${model.icon}`"></i>
-      {{ model.meta.title }}
-    </template>
-    <template v-for="(item, index) in model.children">
-      <el-menu-item v-if="!isContainMore(item)"
-        :class="item.fullpath === $route.path ? 'is-active': ''"
-        :index="item.path"
-        @click="onMenuItemClick(item.path)">
-        {{ item.meta.title }}
+      <el-menu-item
+        :class="model.fullpath === $route.path ? 'is-active pb-4 pt-4': 'pt-4 pb-4'"
+        :index="model.path"
+        @click="onMenuItemClick(model.path)">
+        <h6 class="text-left">
+        {{ model.meta.title }}
+        </h6>
       </el-menu-item>
-      <side-nav-node :model="item"></side-nav-node>
-    </template>
-  </el-submenu>
 </template>
 
 <script>
@@ -30,7 +23,8 @@ export default {
 
   methods: {
     isContainMore (model) {
-      return model.children && model.children.length
+      console.log(model)
+      return false
     },
 
     onMenuItemClick (item) {

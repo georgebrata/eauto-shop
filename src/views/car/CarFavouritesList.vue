@@ -130,11 +130,13 @@
 
         }
 
-        this.carList.forEach(function(car, i) {
+
+        this.favouriteCars.forEach(function(car, i) {
           if(car.carID == carID) {
             index = i;
           }
         })
+        console.log(index)
 
         this.favouriteCars.splice(index, 1);
         this.$setFavoritesList(Array.concat(this.favouriteCars, []));

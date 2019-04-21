@@ -41,6 +41,7 @@ export default{
     initMenuList () {
       const routesConf = this.$_.cloneDeep(RoutesMapConfig)
       const menuList = this.filterNodeByName(routesConf, 'isHideInMenu')
+      console.log(menuList[0].children)
       this.$setMenuList(menuList)
     },
 

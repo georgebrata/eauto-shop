@@ -1,7 +1,10 @@
 <template>
     <el-row v-if="getCar()">
       <el-col :xs="24" v-if="header" class="mb-2">
-        <h3>{{getCar()['make']}} {{getCar()['model']}} <el-tag style="float: right;margin-bottom: 5px;" type="info">{{getCar()['dateFrom(MontYear)']}}</el-tag> </h3>
+        <h3>{{getCar()['make']}} {{getCar()['model']}}
+            <el-button type="link" class="small" @click="resetCar()"><i class="el-icon-refresh"></i></el-button>
+            <el-tag style="float: right;margin-bottom: 5px;" type="info">{{getCar()['dateFrom(MontYear)']}}</el-tag> 
+        </h3>
       </el-col>
       <el-col :xs="24" v-if="!general">
         <el-card class="box-card mb-2 hidden-card">
@@ -201,6 +204,9 @@ export default {
     methods: {
       selectCar(car) {
 
+      },
+      resetCar() {
+          this.$emit('change')
       },
       getCar() {
         return this.$props.car;

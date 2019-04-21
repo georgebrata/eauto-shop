@@ -7,10 +7,38 @@ View the production-ready version of this application here (coming soon).
 
 ## Features
 
- - Over 50 car makes supported
- - Clear and easy to understand comparison tool for multiple cars
+### Done
+ - Over 250 car makes supported
+ - Mobile-first design with simple UX in mind 
+ - Browse cars by differnt criteria, order, sort, filter, search
+ - Add car to favourites to manage multiple options easily
+ - Export favourites cars list (with all details included) to .csv file
+ - Clear and easy to understand comparison tool for up to two cars
+ - Offine support 
+
+### Coming soon... (backlog)
+ - Price alerts with web notifications 
+ - User-generated car suggestions with human review process
  - User's dashboard to monitor car updates (models, prices, etc)
- - Price alerts (coming soon ...)
+
+## Use-cases
+
+1. As a user, I want to see all electric cars available today on the market.
+2. As a user, I want to see all electric cars from a specific make available today on the the market
+3. As a user, I want to see every technical detail of an eleectric car, by category
+4. As a user, I want add a car to favorites for easy future reference
+5. As a user, I want to remove a car from favorites
+6. As a user, I want to export my favorites car to an .csv file (to download it, print it and take the finnal decision in a car dealership)
+7. As a user, I want to compare 2 electric cars (either from My Favorites, either from the whole car list)
+8. As a user, I want to deelete all my local data (from my local browser's local storage)
+9. As a user, I wannt to bee ablee to browse the app in multiple languages
+10. As a usr, I want to be able to suggest a car
+11.
+
+## Constraints
+- Work offline
+- Mobilee design
+- No database for the POC, working just with browser's local storage 
 
 
 ## Want to contribute?

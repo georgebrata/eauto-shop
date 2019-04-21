@@ -83,6 +83,7 @@
         favouriteCars: JSON.parse(localStorage.getItem('favoritesList')) || [],
         favouriteCarsIDs: (JSON.parse(localStorage.getItem('favoritesList')) || []).map(el => { return el.carID }),
         carList: JSON.parse(localStorage.getItem('carList')) || [],
+        stateCarList: JSON.parse(localStorage.getItem('carList')) || [],
         filteredCarList: [],
         isDialogVisible: false,
         currentPage: 1,
@@ -114,7 +115,7 @@
 
     mounted() {
       this.getData();
-      console.log('favouriteCars:', this.favouriteCars)
+      //console.log('favouriteCars:', this.favouriteCars)
     },
 
     filters: {},
@@ -147,7 +148,7 @@
         })
 
         if (this.favouriteCars.find(car => { return car.carID == carID; })) {
-          this.carList.forEach(function(car, i) {
+          this.favouriteCars.forEach(function(car, i) {
             if(car.carID == carID) {
               index = i;
             }
@@ -157,7 +158,6 @@
           this.$setFavoritesList(Array.concat(this.favouriteCars, []));
 
         } else {
-          console.log(newFavouriteCar)
           this.favouriteCars.push(newFavouriteCar);
           this.$setFavoritesList(Array.concat(this.favouriteCars, []));
         }

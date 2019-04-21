@@ -12,6 +12,8 @@ export default {
 
     warmReminder: 'Nu uita: ',
     switchLang: 'Schimba limba',
+    delLocalStorage: 'Sterge datele locale',
+    exportToExcel: 'Descarca favoritele',
 
     operation: 'operatie',
     edit: 'Editeaza',
@@ -32,6 +34,8 @@ export default {
 
     warmReminder: 'Warm Reminder',
     switchLang: 'Switch Language',
+    delLocalStorage: 'Refresh data',
+    exportToExcel: 'Export favorites to Excel',
 
     operation: 'Operation',
     edit: 'Edit',

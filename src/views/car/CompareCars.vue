@@ -19,12 +19,12 @@
 
           <el-row :gutter="12" v-if="carOneID">
             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-              <car-parts v-if="carOneID" :car="getCar()" :header="true"></car-parts>
+              <car-parts v-if="carOneID" :car="getCar()" :header="true" @change="changeCarOne"></car-parts>
             </el-col>
 
             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
               <choose-car v-if="!carTwoID" :all-cars="carList" :cars="favouriteCars" @select="selectCarTwo"></choose-car>
-              <car-parts v-if="carTwoID" :car="getCar2()" :header="true"></car-parts>
+              <car-parts v-if="carTwoID" :car="getCar2()" :header="true" @change="changeCarTwo"></car-parts>
             </el-col>
           </el-row>
 
@@ -101,6 +101,14 @@
             return el['carID'] == this.carTwoID
           })
         }
+      },
+      changeCarOne(){
+        this.carOneID = null;
+        this.carOne = null;
+      },
+      changeCarTwo(){
+        this.carTwoID = null;
+        this.carTwo = null;
       },
 
       selectCarOne(car) {

@@ -148,19 +148,19 @@ export default {
           { required: true, message: 'You must choose fuel type.', trigger: 'change' }
         ],
         date1: [
-          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+          { type: 'date', required: true, message: 'You must enter a value', trigger: 'change' }
         ],
         date2: [
-          { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+          { type: 'date', required: true, message: 'You must enter a value', trigger: 'change' }
         ],
         type: [
-          { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+          { type: 'array', required: true, message: 'You must enter a value', trigger: 'change' }
         ],
         driveTerrain: [
           { required: true, message: 'You must choose at least one option.', trigger: 'change' }
         ],
         desc: [
-          { required: true, message: '请填写活动形式', trigger: 'blur' }
+          { required: true, message: 'You must enter a value', trigger: 'blur' }
         ]
       }
     }

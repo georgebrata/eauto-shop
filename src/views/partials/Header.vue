@@ -19,10 +19,13 @@
       </a>
       <el-dropdown-menu slot="dropdown" class="dropmenu">
         <el-dropdown-item  command="Switch">
-          <icon name="switch"></icon>{{ $t('switchLang') }}
+          <h4 class="el-icon-sort mr-2"></h4>{{ $t('switchLang') }}
         </el-dropdown-item>
-        <el-dropdown-item divided command="Logout">
-          <icon name="logout"></icon>{{ $t('signOut') }}
+        <el-dropdown-item  command="DelLocalStorage">
+          <h4 class="el-icon-refresh mr-2"></h4>{{ $t('delLocalStorage') }}
+        </el-dropdown-item>
+        <el-dropdown-item  command="ExportToExcel">
+          <h4 class="el-icon-download mr-2"></h4>{{ $t('exportToExcel') }}
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -32,6 +35,7 @@
 <script>
 import Vue from 'vue'
 import Cookies from 'js-cookie'
+import { $utils } from '@helper'
 
 export default {
   name: 'header',
@@ -69,11 +73,29 @@ export default {
         this.$message.error(err.msg)
       })
     },
+    onDelLocalStorageClick() {
+
+        
+      window.localStorage.removeItem('carList');
+      window.localStorage.removeItem('favoritesList');
+
+      this.$message({
+        message: 'Car removed from favourites successfully.',
+        type: 'success'
+      });
+
+      window.location = window.location;
+    },
 
     onSwitchClick () {
       let targetLang = this.$currentLang === 'ro' ? 'en' : 'ro'
       Cookies.set('lang', targetLang)
       Vue.config.lang = targetLang
+    },
+
+    onExportToExcelClick() {
+      //https://panjiachen.github.io/vue-element-admin-site/feature/component/excel.html
+      alert("... soon")
     }
   }
 }
