@@ -32,8 +32,7 @@ View the production-ready version of this application here (coming soon).
 7. As a user, I want to compare 2 electric cars (either from My Favorites, either from the whole car list)
 8. As a user, I want to deelete all my local data (from my local browser's local storage)
 9. As a user, I wannt to bee ablee to browse the app in multiple languages
-10. As a usr, I want to be able to suggest a car
-11.
+10. As a user, I want to be able to suggest a car (later reviewed by a human)
 
 ## Constraints
 - Work offline
