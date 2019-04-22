@@ -17,7 +17,7 @@ export default [
       isHideInMenu: true,
       meta: {
         title: "All cars",
-        ignoreAuth: false
+        ignoreAuth: true
       },
       component: resolve => require(['@views/car/CarList'], resolve)
     },
@@ -26,7 +26,7 @@ export default [
       fullpath: '/cars/all',
       meta: {
         title: "All cars",
-        ignoreAuth: false
+        ignoreAuth: true
       },
       component: resolve => require(['@views/car/CarList'], resolve)
     },
@@ -36,7 +36,7 @@ export default [
       isHideInMenu: true,
       meta: {
         title: "All cars by make",
-        ignoreAuth: false
+        ignoreAuth: true
       },
       component: resolve => require(['@views/car/CarListByMake'], resolve)
     },
@@ -46,7 +46,7 @@ export default [
       isHideInMenu: true,
       meta: {
         title: "Car details",
-        ignoreAuth: false
+        ignoreAuth: true
       },
       component: resolve => require(['@views/car/CarDetails'], resolve)
     },
@@ -55,7 +55,7 @@ export default [
       fullpath: '/cars/favourites',
       meta: {
         title: "My favourites",
-        ignoreAuth: false
+        ignoreAuth: true
       },
       component: resolve => require(['@views/car/CarFavouritesList'], resolve)
     },
@@ -64,7 +64,7 @@ export default [
       fullpath: '/cars/compare',
       meta: {
         title: "Compare cars",
-        ignoreAuth: false
+        ignoreAuth: true
       },
       component: resolve => require(['@views/car/CompareCars'], resolve)
     },
@@ -74,7 +74,7 @@ export default [
       isHideInMenu: true,
       meta: {
         title: "Compare cars",
-        ignoreAuth: false
+        ignoreAuth: true
       },
       component: resolve => require(['@views/car/CompareCars'], resolve)
     },
@@ -84,7 +84,7 @@ export default [
       isHideInMenu: true,
       meta: {
         title: "Compare cars",
-        ignoreAuth: false
+        ignoreAuth: true
       },
       component: resolve => require(['@views/car/CompareCars'], resolve)
     },
@@ -94,7 +94,7 @@ export default [
       isHideInMenu: false,
       meta: {
         title: "Suggest a car",
-        ignoreAuth: false
+        ignoreAuth: true
       },
       component: resolve => require(['@views/car/SuggestACar'], resolve)
     },

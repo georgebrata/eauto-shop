@@ -3,8 +3,8 @@
 
     <div class="module-header">
       <h3>{{getCar()['make']}} {{getCar()['model']}} <el-tag type="info">{{getCar()['dateFrom(MontYear)']}}</el-tag> </h3>
-        <el-button class="hidden-sm-and-down" type="primary" style="position: absolute; right: 20px; top: 15px;"><i class="el-icon-menu mr-3"></i>Compare this car with others</el-button>
-        <el-button class="hidden-md-and-up" type="primary" style="position: absolute; right: 20px; top: 15px;"><i class="el-icon-menu"></i></el-button>
+        <el-button class="hidden-sm-and-down" @click="compareCar()" type="primary" style="position: absolute; right: 20px; top: 15px;"><i class="el-icon-menu mr-3"></i>Compare this car with others</el-button>
+        <el-button class="hidden-md-and-up" @click="compareCar()" type="primary" style="position: absolute; right: 20px; top: 15px;"><i class="el-icon-menu"></i></el-button>
     </div>
 
     <div class="module-content">
@@ -218,6 +218,9 @@
     filters: {},
 
     methods: {
+    compareCar() {
+      this.$router.push(`/cars/compare/${this.getCar()['carID']}`);
+    },
     updateUser() {
         if(!this.userKnows) {
             this.$message("You have succesfully hidden a card. Refresh the page to get it back");
