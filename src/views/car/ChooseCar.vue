@@ -5,6 +5,10 @@
         <div v-if="this.$props.cars.length > 0" class="fav-cars-container">
             <h6>Select from your favourites cars</h6>
             <div class="p-2 text-left" style="max-height: 30vh;overflow-y: scroll;">
+                <!-- Pentru fiecare masina din favoritesCars afisez un <el-card></el-card> -->
+                <!-- In fiecare el-card am un el-button -->
+                <!-- Cand se da click pe oricare el-button se apeleaza functia selectCar(car)-->
+                <!-- -->
                 <el-card class="mt-1 mb-1 pr-2 pl-2 pt-1 pb-1" shadow="hover" v-for="car in this.$props.cars" v-bind="car['carID']">
                     <i v-if="favouriteCarsIDs.includes(car['carID'])" class="el-icon-star-on mr-2" style="color: #f7ba2a;"></i>{{car['make']}} {{car['model']}}
                     <el-button type="text" class="button mr-4" @click="selectCar(car)" style="float: right;padding:0;">
@@ -87,8 +91,6 @@ export default {
   },
     methods: {
         selectCar(car) {
-            console.log(car);
-
             this.$emit('select', car)
         }
     }

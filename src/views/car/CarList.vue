@@ -165,10 +165,12 @@
 
       getData() {
         if (this.stateCarList.length) {
+          //if we have items in local storage
           this.carList = this.stateCarList
           this.filteredCarList = this.stateCarList
           this.isLoading = false;
         } else {
+          //just if data get from local storage is []
           this.isLoading = true;
           this.$apis.car.fetchAll().then(carList => {
               this.isLoading = false;

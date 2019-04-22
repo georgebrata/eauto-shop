@@ -1,4 +1,5 @@
 <template>
+  <!-- v-loading puts a loading gif (and a simple blur) on the page when isLoading variable is true -->
   <section class="page-module" v-loading="isLoading">
     <div class="module-content">
 
@@ -13,9 +14,11 @@
 
           <el-row :gutter="12">
             <el-col :xs="20" :sm="20" :lg="20" :md="20" :xl="20" :offset="2">
-              <choose-car :all-cars="carList" v-if="!carOneID" :cars="favouriteCars" @select="selectCarOne"></choose-car>
+              <choose-car :all-cars="carList" :cars="favouriteCars" v-if="!carOneID" @select="selectCarOne"></choose-car>
             </el-col>
           </el-row>
+
+
 
           <el-row :gutter="12" v-if="carOneID">
             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
@@ -110,7 +113,6 @@
         this.carTwoID = null;
         this.carTwo = null;
       },
-
       selectCarOne(car) {
         this.carOne = car;
         this.carOneID = car.carID

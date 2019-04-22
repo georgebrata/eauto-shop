@@ -14,7 +14,6 @@
               </el-form-item>
             </div>
             -->
-
             <div class="form-group col-xl-6 col-sm-12">
               <el-form-item label="Make" prop="make">
                 <el-input v-model="ruleForm.make"></el-input>
@@ -23,7 +22,7 @@
 
             <div class="form-group col-sm-6">
               <el-form-item label="Model" prop="model">
-                <el-input v-model="ruleForm.make"></el-input>
+                <el-input v-model="ruleForm.model"></el-input>
               </el-form-item>
             </div>
 
@@ -112,13 +111,12 @@
 </template>
 <script>
 export default {
+  //Vue Components are like OOP Classess:
+  //   data:    atrributes
+  //   methods: methods
   name: 'SuggestACar',
-
   components: {},
-
-  props: {
-  },
-
+  props: {},
   data () {
     return {
       dynamicValidateForm: {
@@ -126,7 +124,7 @@ export default {
           key: 1,
           value: ''
         }],
-        email: '' 
+        email: ''
       },
       ruleForm: {
         make: '',
@@ -165,19 +163,13 @@ export default {
       }
     }
   },
-
   computed: {},
-
   watch: {},
-
   created () {
   },
-
   mounted () {
   },
-
   filters: {},
-
   methods: {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
